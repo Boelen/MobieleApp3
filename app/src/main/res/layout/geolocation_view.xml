@@ -13,7 +13,7 @@
         android:id="@+id/storelocationmap"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:name="cogm.google.android.gms.maps.MapFragment"
+        android:name="com.google.android.gms.maps.MapFragment"
         />
 
 </RelativeLayout>
