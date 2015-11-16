@@ -1,13 +1,24 @@
 package com.example.r0316137.mobieleapp3;
 
+import android.support.annotation.NonNull;
+
 import com.google.android.gms.location.Geofence;
 
 import java.util.UUID;
 
-/**
- * Created by Tom on 16/11/2015.
- */
-public class NamedGeofence {
+public class NamedGeofence implements Comparable {
+
+    // region Properties
+
+    public String id;
+    public String name;
+    public double latitude;
+    public double longitude;
+    public float radius;
+
+    // end region
+
+    // region Public
 
     public Geofence geofence() {
         id = UUID.randomUUID().toString();
@@ -18,4 +29,17 @@ public class NamedGeofence {
                 .setExpirationDuration(Geofence.NEVER_EXPIRE)
                 .build();
     }
+
+    // endregion
+
+    // region Comparable
+
+    @Override
+    public int compareTo(@NonNull Object another) {
+        NamedGeofence other = (NamedGeofence) another;
+        return name.compareTo(other.name);
+    }
+
+    // endregion
 }
+
