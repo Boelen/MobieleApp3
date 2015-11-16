@@ -8,6 +8,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+
 /**
  * Created by r0316137 on 9/11/2015.
  */
@@ -15,13 +20,15 @@ public class GeolocationActivity  extends AppCompatActivity {
 
     private static final LatLng CHANDLER = new LatLng(33.455,-112.0668);
 
+
+
     private static final StoreLocation[] ALLRESTURANTLOCATIONS = new StoreLocation[] {
             new StoreLocation(new LatLng(33.455,-112.0668), new String("Phoenix, AZ")),
             new StoreLocation(new LatLng(33.5123,-111.9336), new String("SCOTTSDALE, AZ")),
             new StoreLocation(new LatLng(33.3333,-111.8335), new String("Chandler, AZ")),
             new StoreLocation(new LatLng(33.4296,-111.9436), new String("Tempe, AZ")),
             new StoreLocation(new LatLng(33.4152,-111.8315), new String("Mesa, AZ")),
-            new StoreLocation(new LatLng(33.3525,-111.7896), new String("Gilbert, AZ"))
+            new StoreLocation(new LatLng(33.3525,-111.7896), new String("Gilbert, AZ"));
 
 
 
