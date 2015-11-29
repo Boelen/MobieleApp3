@@ -3,6 +3,7 @@
     package="com.example.r0316137.mobieleapp3">
 
 
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -11,15 +12,22 @@
         The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
         Google Maps Android API v2, but are recommended.
     -->
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
+
 
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
+
+        <uses-sdk android:minSdkVersion="17"
+            android:targetSdkVersion="17"
+            android:maxSdkVersion="23" />
 
         <meta-data
             android:name="com.google.android.gms.version"
@@ -39,7 +47,7 @@
         </activity>
 
         <receiver
-            android:name="com.google.android.GeofenceTransitionReceiver"
+            android:name="com.example.r0316137.mobieleapp3.GeofenceTransitionReceiver"
             android:enabled="true"
             android:exported="false" >
         </receiver>
