@@ -53,9 +53,15 @@ public class GeofenceTransitionReceiver extends WakefulBroadcastReceiver {
 
     protected void onEnteredGeofences(String[] geofenceIds) {
         for (String fenceId : geofenceIds) {
+
+
+
             Toast.makeText(context, String.format("Entered this fence: %1$s", fenceId), Toast.LENGTH_SHORT).show();
             Log.i(TAG, String.format("Entered this fence: %1$s", fenceId));
             createNotification(fenceId, "Entered");
+
+
+
         }
     }
 
