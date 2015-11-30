@@ -1,5 +1,6 @@
 package com.example.r0316137.mobieleapp3;
 
+import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -51,8 +52,15 @@ public class GeofenceTransitionReceiver extends WakefulBroadcastReceiver {
         }
     }
 
-    protected void onEnteredGeofences(String[] geofenceIds) {
+    protected void onEnteredGeofences(String[] geofenceIds ) {
         for (String fenceId : geofenceIds) {
+
+            switch (fenceId)
+            {
+                case "Home" :
+                    Intent intent = new Intent(this.context,TestActivity.class);
+                    context.startActivity(intent);
+            }
 
 
 
