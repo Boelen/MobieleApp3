@@ -8,5 +8,7 @@
     <string name="cont_desc_home_btn">Home Button</string>
     <string name="cont_desc_happyplace_btn">Happy Place Button</string>
     <string name="cont_desc_reset_btn">Reset Map Button</string>
+    <string name="name_input_text">Naam:</string>
+    <string name="name_klasgroup_text">klasgroep:</string>
 
 </resources>
