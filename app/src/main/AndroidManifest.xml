@@ -45,6 +45,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".TestActivity"
+            android:label="@string/app_name">
+
+        </activity>
 
         <receiver
             android:name="com.example.r0316137.mobieleapp3.GeofenceTransitionReceiver"
