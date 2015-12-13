@@ -8,31 +8,67 @@
     android:background="@drawable/ic_homebackground"
     tools:context="com.example.r0316137.mobieleapp3.HomeActivity">
 
+    <TextView
+        android:id="@+id/LblGroupName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/name_input_text"
+        android:padding="10dp"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginTop="50dp"
+        android:layout_alignRight="@+id/LblClass"/>
+
     <EditText
         android:id="@+id/GroupName"
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="61dp"
-        android:ems="10"
-        android:text="@string/name_input_text" android:inputType="text" />
+        android:layout_alignBaseline="@id/LblGroupName"
+       android:layout_toRightOf="@+id/LblGroupName"
+        android:layout_marginLeft="5dp"
+        android:ems="8"
+        android:textSize="20sp"
+        android:inputType="text" />
+
+    <TextView
+        android:id="@+id/LblClass"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/name_klasgroup_text"
+        android:layout_below="@+id/LblGroupName"
+        android:padding="10dp"
+        android:textSize="20sp"
+        android:textStyle="bold"/>
 
     <EditText
         android:id="@+id/Klasgroup"
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:layout_below="@id/GroupName"
-        android:text="@string/name_klasgroup_text" android:inputType="text"
-        android: />
+        android:layout_alignBaseline="@id/LblClass"
+        android:layout_toRightOf="@+id/LblClass"
+        android:layout_marginLeft="5dp"
+        android:ems="8"
+        android:textSize="20sp"
+        android:inputType="text"
+        android:layout_marginBottom="10dp"/>
 
 
-    <Button android:id="@+id/Button03"
+    <Button android:id="@+id/Button02"
         android:layout_below="@id/Klasgroup"
         android:layout_width="fill_parent"
-        android:layout_height="100dp"
-        android:layout_margin="2dp"
-        android:alpha="0.75"
-        android:text="TimeTabel">
+        android:layout_height="75dp"
+        android:layout_marginTop="10dp"
+        android:alpha="0.50"
+        android:text="Start">
+    </Button>
+
+    <Button android:id="@+id/Button03"
+        android:layout_below="@id/Button02"
+        android:layout_width="fill_parent"
+        android:layout_height="75dp"
+        android:layout_marginTop="10dp"
+        android:alpha="0.50"
+        android:text="ScoreTabel">
     </Button>
 
 </RelativeLayout>
