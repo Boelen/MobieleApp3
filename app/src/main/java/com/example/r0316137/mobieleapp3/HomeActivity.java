@@ -1,5 +1,6 @@
 package com.example.r0316137.mobieleapp3;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -33,12 +34,23 @@ implements TextView.OnEditorActionListener,View.OnClickListener{
         // set the listeners
         groupName.setOnEditorActionListener(this);
         className.setOnEditorActionListener(this);
-        //startGame.
+        startGame.setOnClickListener(this);
+        scoreTabel.setOnClickListener(this);
+
 
     }
 
     @Override
     public void onClick(View v) {
+        switch (v.getId())
+        {
+            case R.id.Button02:
+                Intent intent = new Intent(this,MapsActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.Button03:
+                break;
+        }
 
     }
 
