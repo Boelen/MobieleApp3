@@ -56,7 +56,7 @@
     <Button android:id="@+id/Button02"
         android:layout_below="@id/Klasgroup"
         android:layout_width="fill_parent"
-        android:layout_height="75dp"
+        android:layout_height="76dp"
         android:alpha="0.50"
         android:text="Start">
     </Button>
