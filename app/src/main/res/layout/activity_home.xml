@@ -57,7 +57,6 @@
         android:layout_below="@id/Klasgroup"
         android:layout_width="fill_parent"
         android:layout_height="75dp"
-        android:layout_marginTop="10dp"
         android:alpha="0.50"
         android:text="Start">
     </Button>
@@ -66,7 +65,7 @@
         android:layout_below="@id/Button02"
         android:layout_width="fill_parent"
         android:layout_height="75dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="30dp"
         android:alpha="0.50"
         android:text="ScoreTabel">
     </Button>
