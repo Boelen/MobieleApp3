@@ -26,7 +26,7 @@
         android:layout_alignBaseline="@id/LblGroupName"
        android:layout_toRightOf="@+id/LblGroupName"
         android:layout_marginLeft="5dp"
-        android:ems="8"
+        android:ems="15"
         android:textSize="20sp"
         android:inputType="text" />
 
@@ -47,15 +47,16 @@
         android:layout_alignBaseline="@id/LblClass"
         android:layout_toRightOf="@+id/LblClass"
         android:layout_marginLeft="5dp"
-        android:ems="8"
+        android:ems="15"
         android:textSize="20sp"
         android:inputType="text"
         android:layout_marginBottom="10dp"/>
 
 
     <Button android:id="@+id/Button02"
-        android:layout_below="@id/Klasgroup"
+        android:layout_below="@id/LblClass"
         android:layout_width="fill_parent"
+        android:layout_marginTop="40dp"
         android:layout_height="76dp"
         android:alpha="0.50"
         android:text="Start">
