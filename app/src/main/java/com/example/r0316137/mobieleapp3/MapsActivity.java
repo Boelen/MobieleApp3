@@ -143,10 +143,10 @@ public class MapsActivity extends AppCompatActivity implements GoogleApiClient.C
             updateLocationRunnable.interrupt();
         } */
 
-        Log.i(TAG, "Cleanup Our Fields");
-        locationManager.removeTestProvider(LocationManager.GPS_PROVIDER);
-        locationManager.removeTestProvider(LocationManager.NETWORK_PROVIDER);
-        locationManager = null;
+       // Log.i(TAG, "Cleanup Our Fields");
+       // locationManager.removeTestProvider(LocationManager.GPS_PROVIDER);
+       // locationManager.removeTestProvider(LocationManager.NETWORK_PROVIDER);
+       // locationManager = null;
 
         // updateLocationRunnable = null;
 
@@ -210,7 +210,7 @@ public class MapsActivity extends AppCompatActivity implements GoogleApiClient.C
         // Add a place with a Geofence
         // Work 39.3336585, -84.3146718
         // Home 39.2697455, -84.269921
-        home = new MyPlaces("Home", "This is where I live.", new LatLng(39.3336585, -84.3146718), 10000, 10, R.drawable.ic_home);
+        home = new MyPlaces("Home", "This is where I live.", new LatLng(50.971724, 5.551238), 10000, 10, R.drawable.ic_home);
         addPlaceMarker(home);
         addFence(home);
 
