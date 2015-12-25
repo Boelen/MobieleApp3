@@ -1,21 +1,14 @@
 package com.example.r0316137.mobieleapp3;
 
 import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.location.Criteria;
 import android.location.Location;
+import com.google.android.gms.location.LocationListener;
 import android.location.LocationManager;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.SystemClock;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageButton;
@@ -27,6 +20,7 @@ import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.Geofence;
+import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -34,16 +28,16 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Tom on 28/11/2015.
  */
-public class MapsActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, View.OnClickListener, ResultCallback<Status> {
+public class MapsActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, View.OnClickListener, ResultCallback<Status>, LocationListener {
 
     public static final String TAG = MapsActivity.class.getSimpleName();
 
@@ -60,6 +54,10 @@ public class MapsActivity extends AppCompatActivity implements GoogleApiClient.C
     private LocationManager locationManager;
     private int marker = 0;
     private Location lastLocation;
+    private Marker currLocationMarker;
+    private Marker newLocationmarker;
+    private LocationRequest mLocationRequest;
+    private LocationListener locationListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -210,7 +208,7 @@ public class MapsActivity extends AppCompatActivity implements GoogleApiClient.C
         // Add a place with a Geofence
         // Work 39.3336585, -84.3146718
         // Home 39.2697455, -84.269921
-        home = new MyPlaces("Home", "This is where I live.", new LatLng(50.971724, 5.551238), 10000, 10, R.drawable.ic_home);
+        home = new MyPlaces("Home", "This is where I live.", new LatLng(55.971724, 5.551238), 10000, 10, R.drawable.ic_home);
         addPlaceMarker(home);
         addFence(home);
 
@@ -358,9 +356,21 @@ public class MapsActivity extends AppCompatActivity implements GoogleApiClient.C
         } else {
             lastLocationMessage = String.format("Last Location (%1$s, %2$s)", lastLocation.getLatitude(), lastLocation.getLongitude());
             moveToLocation(new MyPlaces("Last Location", "I am here.", new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude()), 0, 13, 0));
+            MarkerOptions markerOptions = new MarkerOptions();
+            markerOptions.position(new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude()));
+            markerOptions.title("Current Position");
+            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.cposition));
+            currLocationMarker = googleMap.addMarker(markerOptions);
         }
+
         Toast.makeText(this, lastLocationMessage, Toast.LENGTH_SHORT).show();
         // PRES 3
+        mLocationRequest = new LocationRequest();
+        mLocationRequest.setInterval(5000);
+        mLocationRequest.setFastestInterval(3000);
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
+        LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient,mLocationRequest,this);
+
         geofencePendingIntent = getRequestPendingIntent();
         PendingResult<Status> result = LocationServices.GeofencingApi.addGeofences(googleApiClient, myFences, geofencePendingIntent);
         result.setResultCallback(this);
@@ -414,6 +424,28 @@ public class MapsActivity extends AppCompatActivity implements GoogleApiClient.C
             return PendingIntent.getBroadcast(this, R.id.geofence_transition_intent, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         }
     }
+
+
+    @Override
+    public void onLocationChanged(Location location) {
+
+
+//        if(currLocationMarker != null)
+//        {
+//            currLocationMarker.remove();
+//        }
+
+        LatLng latLng = new LatLng(location.getLatitude(),location.getLongitude());
+        MarkerOptions markerOptions = new MarkerOptions();
+        markerOptions.position(new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude()));
+        markerOptions.title("Current Position");
+        markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.emo_im_laughing));
+        newLocationmarker = googleMap.addMarker(markerOptions);
+        Toast.makeText(this,"Location Changed" + location.getLatitude() + " " + location.getLongitude(),Toast.LENGTH_SHORT).show();
+
+    }
+}
+
 
 
     // /////////////////////////////////////////////////////////////////////////////////////////
@@ -489,4 +521,3 @@ public class MapsActivity extends AppCompatActivity implements GoogleApiClient.C
             }
         }
     } */
-}
