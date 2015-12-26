@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class HomeActivity extends AppCompatActivity
 implements TextView.OnEditorActionListener,View.OnClickListener{
@@ -45,13 +46,47 @@ implements TextView.OnEditorActionListener,View.OnClickListener{
         switch (v.getId())
         {
             case R.id.Button02:
-                Intent intent = new Intent(this,MapsActivity.class);
-                startActivity(intent);
+                Boolean CheckInput = CheckInput();
+
+                if(CheckInput == true) {
+                    Intent intent = new Intent(this, MapsActivity.class);
+                    startActivity(intent);
+                }
                 break;
             case R.id.Button03:
                 break;
         }
+    }
 
+    public Boolean CheckInput()
+    {
+        int LengteClassName = className.getText().length();
+        int LengteGroupName = groupName.getText().length();
+
+        if(LengteClassName < 3)
+        {
+            Toast.makeText(this,"Je klasnaam is te kort",Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        else if (className.getText().toString().contains(" "))
+        {
+            Toast.makeText(this,"Je klasnaam mag geen spaties bevatten",Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        else if (LengteGroupName < 2)
+        {
+            Toast.makeText(this,"Jouw gekozen groepsnaam moet langer zijn dan 2 letters",Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        else if (groupName.getText().toString().contains(" "))
+        {
+            Toast.makeText(this,"Je gekozen groepsnaam mag geen spaties bevatten",Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        else
+        {
+            return true;
+        }
     }
 
     @Override

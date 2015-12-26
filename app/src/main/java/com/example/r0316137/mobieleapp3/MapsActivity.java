@@ -1,6 +1,7 @@
 package com.example.r0316137.mobieleapp3;
 
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.location.Location;
@@ -9,6 +10,7 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageButton;
@@ -123,7 +125,7 @@ public class MapsActivity extends AppCompatActivity implements GoogleApiClient.C
         //Log.i(TAG, "Setup MOCK Location Providers");
         //locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 
-       // Log.i(TAG, "GPS Provider");
+        // Log.i(TAG, "GPS Provider");
         //locationManager.addTestProvider(LocationManager.GPS_PROVIDER, false, true, false, false, false, false, false, Criteria.POWER_HIGH, Criteria.ACCURACY_FINE);
         //locationManager.setTestProviderEnabled(LocationManager.GPS_PROVIDER, true);
 
@@ -141,10 +143,10 @@ public class MapsActivity extends AppCompatActivity implements GoogleApiClient.C
             updateLocationRunnable.interrupt();
         } */
 
-       // Log.i(TAG, "Cleanup Our Fields");
-       // locationManager.removeTestProvider(LocationManager.GPS_PROVIDER);
-       // locationManager.removeTestProvider(LocationManager.NETWORK_PROVIDER);
-       // locationManager = null;
+        // Log.i(TAG, "Cleanup Our Fields");
+        // locationManager.removeTestProvider(LocationManager.GPS_PROVIDER);
+        // locationManager.removeTestProvider(LocationManager.NETWORK_PROVIDER);
+        // locationManager = null;
 
         // updateLocationRunnable = null;
 
@@ -320,6 +322,7 @@ public class MapsActivity extends AppCompatActivity implements GoogleApiClient.C
         myFences.add(geofence);
     }
 
+
     /**
      * Connect our GoogleApiClient so we can begin monitoring our fences.
      *
@@ -365,16 +368,27 @@ public class MapsActivity extends AppCompatActivity implements GoogleApiClient.C
 
         Toast.makeText(this, lastLocationMessage, Toast.LENGTH_SHORT).show();
         // PRES 3
-        mLocationRequest = new LocationRequest();
-        mLocationRequest.setInterval(5000);
-        mLocationRequest.setFastestInterval(3000);
-        mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
-        LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient,mLocationRequest,this);
 
         geofencePendingIntent = getRequestPendingIntent();
         PendingResult<Status> result = LocationServices.GeofencingApi.addGeofences(googleApiClient, myFences, geofencePendingIntent);
         result.setResultCallback(this);
+
+
+            startLocationUpdates();
     }
+
+    protected void startLocationUpdates(){
+
+        Log.i(TAG,"LocationUpdates");
+        mLocationRequest = mLocationRequest.create()
+                .setPriority(mLocationRequest.PRIORITY_BALANCED_POWER_ACCURACY)
+                .setInterval(5000)
+                .setFastestInterval(3000);
+        LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient,mLocationRequest,this);
+
+    }
+
+
 
     @Override
     public void onConnectionSuspended(int i) {
@@ -429,22 +443,19 @@ public class MapsActivity extends AppCompatActivity implements GoogleApiClient.C
     @Override
     public void onLocationChanged(Location location) {
 
+        Log.i(TAG,"LocationUpdates2");
 
-//        if(currLocationMarker != null)
-//        {
-//            currLocationMarker.remove();
-//        }
+            LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+            MarkerOptions markerOptions = new MarkerOptions();
+            markerOptions.position(new LatLng(location.getLatitude(), location.getLongitude()));
+            markerOptions.title("Current Position");
+            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.emo_im_laughing));
+            newLocationmarker = googleMap.addMarker(markerOptions);
+            Toast.makeText(this, "Location Changed" + location.getLatitude() + " " + location.getLongitude(), Toast.LENGTH_SHORT).show();
 
-        LatLng latLng = new LatLng(location.getLatitude(),location.getLongitude());
-        MarkerOptions markerOptions = new MarkerOptions();
-        markerOptions.position(new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude()));
-        markerOptions.title("Current Position");
-        markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.emo_im_laughing));
-        newLocationmarker = googleMap.addMarker(markerOptions);
-        Toast.makeText(this,"Location Changed" + location.getLatitude() + " " + location.getLongitude(),Toast.LENGTH_SHORT).show();
-
+        }
     }
-}
+
 
 
 
