@@ -4,10 +4,13 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.location.Criteria;
 import android.location.Location;
 import com.google.android.gms.location.LocationListener;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
@@ -33,6 +36,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,7 +56,7 @@ public class MapsActivity extends AppCompatActivity implements GoogleApiClient.C
     private List<Geofence> myFences = new ArrayList<>();
     private GoogleApiClient googleApiClient;
     private PendingIntent geofencePendingIntent;
-    // private UpdateLocationRunnable updateLocationRunnable;
+    private UpdateLocationRunnable updateLocationRunnable;
     private LocationManager locationManager;
     private int marker = 0;
     private Location lastLocation;
@@ -101,9 +105,13 @@ public class MapsActivity extends AppCompatActivity implements GoogleApiClient.C
             case R.id.ib_reset:
                 Toast.makeText(this, "Resetting Our Map", Toast.LENGTH_SHORT).show();
 
-            /*    if (updateLocationRunnable != null) {
+                // /////////////////////////////////////////////////////////////////////////////////////////
+                // // UpdateLocationRunnable             - Onderstaande code heb je nodig voor MOCKING    //
+                // /////////////////////////////////////////////////////////////////////////////////////////
+
+                if (updateLocationRunnable != null) {
                     updateLocationRunnable.interrupt();
-                } */
+                }
 
 
                 googleApiClient.disconnect();
@@ -122,33 +130,41 @@ public class MapsActivity extends AppCompatActivity implements GoogleApiClient.C
 
         this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
-        //Log.i(TAG, "Setup MOCK Location Providers");
-        //locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+        // /////////////////////////////////////////////////////////////////////////////////////////
+        // //  Onderstaande code heb je nodig voor MOCKING    //
+        // /////////////////////////////////////////////////////////////////////////////////////////
 
-        // Log.i(TAG, "GPS Provider");
-        //locationManager.addTestProvider(LocationManager.GPS_PROVIDER, false, true, false, false, false, false, false, Criteria.POWER_HIGH, Criteria.ACCURACY_FINE);
-        //locationManager.setTestProviderEnabled(LocationManager.GPS_PROVIDER, true);
+        Log.i(TAG, "Setup MOCK Location Providers");
+        locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 
-        //Log.i(TAG, "Network Provider");
-        //locationManager.addTestProvider(LocationManager.NETWORK_PROVIDER, true, false, true, false, false, false, false, Criteria.POWER_MEDIUM, Criteria.ACCURACY_FINE);
-        // locationManager.setTestProviderEnabled(LocationManager.NETWORK_PROVIDER, true);
+        Log.i(TAG, "GPS Provider");
+        locationManager.addTestProvider(LocationManager.GPS_PROVIDER, false, true, false, false, false, false, false, Criteria.POWER_HIGH, Criteria.ACCURACY_FINE);
+        locationManager.setTestProviderEnabled(LocationManager.GPS_PROVIDER, true);
+
+        Log.i(TAG, "Network Provider");
+        locationManager.addTestProvider(LocationManager.NETWORK_PROVIDER, true, false, true, false, false, false, false, Criteria.POWER_MEDIUM, Criteria.ACCURACY_FINE);
+        locationManager.setTestProviderEnabled(LocationManager.NETWORK_PROVIDER, true);
     }
 
     @Override
     protected void onPause() {
         this.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
+        // /////////////////////////////////////////////////////////////////////////////////////////
+        // //  Onderstaande code heb je nodig voor MOCKING    //
+        // /////////////////////////////////////////////////////////////////////////////////////////
+
         // Interrupt our runnable if we're going into the background or exiting
-       /* if (updateLocationRunnable != null) {
+        if (updateLocationRunnable != null) {
             updateLocationRunnable.interrupt();
-        } */
+        }
 
-        // Log.i(TAG, "Cleanup Our Fields");
-        // locationManager.removeTestProvider(LocationManager.GPS_PROVIDER);
-        // locationManager.removeTestProvider(LocationManager.NETWORK_PROVIDER);
-        // locationManager = null;
+        Log.i(TAG, "Cleanup Our Fields");
+        locationManager.removeTestProvider(LocationManager.GPS_PROVIDER);
+        locationManager.removeTestProvider(LocationManager.NETWORK_PROVIDER);
+        locationManager = null;
 
-        // updateLocationRunnable = null;
+        updateLocationRunnable = null;
 
         super.onPause();
     }
@@ -194,13 +210,6 @@ public class MapsActivity extends AppCompatActivity implements GoogleApiClient.C
     private void setUpMap() {
         googleMap.setBuildingsEnabled(true);
 
-        // PRES 1
-        /*
-            1. Create a "Place" that will become a Geofence
-            2. Add a place marker on our Map
-            3. Add our place to our list of Geofences
-            4. Repeat for each place
-         */
 
         // Add a place with a Geofence
         happyPlace = new MyPlaces("Pier @ Folly Beach", "This is my Happy Place!", new LatLng(32.652411, -79.938063), 10000, 10, R.drawable.ic_palm_tree);
@@ -224,20 +233,24 @@ public class MapsActivity extends AppCompatActivity implements GoogleApiClient.C
          */
         monitorFences(myFences);
 
-       /* googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-            @Override
-            public void onMapClick(LatLng latLng) { */
+        // /////////////////////////////////////////////////////////////////////////////////////////
+        // //  Onderstaande code heb je nodig voor MOCKING    //
+        // /////////////////////////////////////////////////////////////////////////////////////////
 
-              /*  if (updateLocationRunnable != null && updateLocationRunnable.isAlive() && !updateLocationRunnable.isInterrupted()) {
+        googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(LatLng latLng) {
+
+                if (updateLocationRunnable != null && updateLocationRunnable.isAlive() && !updateLocationRunnable.isInterrupted()) {
                     updateLocationRunnable.interrupt();
                 }
                 updateLocationRunnable = new UpdateLocationRunnable(locationManager, latLng);
                 updateLocationRunnable.start();
 
                 MyPlaces touchedPlace = new MyPlaces(String.format("Marker %1$d", ++marker), "", latLng, 65, 12, 0);
-                addPlaceMarker(touchedPlace); */
-           /* }
-        }); */
+                addPlaceMarker(touchedPlace);
+            }
+        });
     }
 
     /**
@@ -343,13 +356,7 @@ public class MapsActivity extends AppCompatActivity implements GoogleApiClient.C
 
     @Override
     public void onConnected(Bundle bundle) {
-        /*
-            TODO
-            1. Display a spinner in the progress bar while we're waiting for location
-            2. When connected & not null update map position to location
-            3. If location null try again once every 10 seconds until we get an answer or quit after x minutes
-            4. ?
-         */
+
         Toast.makeText(this, "GoogleApiClient Connected", Toast.LENGTH_SHORT).show();
         lastLocation = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
         String lastLocationMessage;
@@ -374,20 +381,19 @@ public class MapsActivity extends AppCompatActivity implements GoogleApiClient.C
         result.setResultCallback(this);
 
 
-            startLocationUpdates();
+        startLocationUpdates();
     }
 
-    protected void startLocationUpdates(){
+    protected void startLocationUpdates() {
 
-        Log.i(TAG,"LocationUpdates");
+        Log.i(TAG, "LocationUpdates");
         mLocationRequest = mLocationRequest.create()
                 .setPriority(mLocationRequest.PRIORITY_BALANCED_POWER_ACCURACY)
                 .setInterval(5000)
                 .setFastestInterval(3000);
-        LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient,mLocationRequest,this);
+        LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, mLocationRequest, this);
 
     }
-
 
 
     @Override
@@ -443,36 +449,35 @@ public class MapsActivity extends AppCompatActivity implements GoogleApiClient.C
     @Override
     public void onLocationChanged(Location location) {
 
-        Log.i(TAG,"LocationUpdates2");
+        Log.i(TAG, "LocationUpdates2");
 
-            LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-            MarkerOptions markerOptions = new MarkerOptions();
-            markerOptions.position(new LatLng(location.getLatitude(), location.getLongitude()));
-            markerOptions.title("Current Position");
-            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.emo_im_laughing));
-            newLocationmarker = googleMap.addMarker(markerOptions);
-            Toast.makeText(this, "Location Changed" + location.getLatitude() + " " + location.getLongitude(), Toast.LENGTH_SHORT).show();
+        LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+        MarkerOptions markerOptions = new MarkerOptions();
+        markerOptions.position(new LatLng(location.getLatitude(), location.getLongitude()));
+        markerOptions.title("Current Position");
+        markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.emo_im_laughing));
+        newLocationmarker = googleMap.addMarker(markerOptions);
+        Toast.makeText(this, "Location Changed" + location.getLatitude() + " " + location.getLongitude(), Toast.LENGTH_SHORT).show();
 
-        }
     }
 
 
-
-
     // /////////////////////////////////////////////////////////////////////////////////////////
-    // // UpdateLocationRunnable                                                              //
+    // // UpdateLocationRunnable             - Onderstaande code heb je nodig voor MOCKING    //
     // /////////////////////////////////////////////////////////////////////////////////////////
 
-    /* private Location createMockLocation(String locationProvider, double latitude, double longitude) {
+    private Location createMockLocation(String locationProvider, double latitude, double longitude) {
         Location location = new Location(locationProvider);
         location.setLatitude(latitude);
         location.setLongitude(longitude);
         location.setAccuracy(1.0f);
-        location.setTime(System.currentTimeMillis()); */
+        location.setTime(System.currentTimeMillis());
+
         /*
             setElapsedRealtimeNanos() was added in API 17
          */
-        /* if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
             location.setElapsedRealtimeNanos(SystemClock.elapsedRealtimeNanos());
         }
         try {
@@ -484,14 +489,14 @@ public class MapsActivity extends AppCompatActivity implements GoogleApiClient.C
             // There's no action to take here.  This is a fix for Jelly Bean and no reason to report a failure.
         }
         return location;
-    } */
+    }
 
 
     // /////////////////////////////////////////////////////////////////////////////////////////
-    // // CreateMockLocation                                                                  //
+    // // CreateMockLocation             - Onderstaande code heb je nodig voor MOCKING        //
     // /////////////////////////////////////////////////////////////////////////////////////////
 
-  /*  class UpdateLocationRunnable extends Thread {
+    class UpdateLocationRunnable extends Thread {
 
         private final LocationManager locMgr;
         private final LatLng latlng;
@@ -501,23 +506,25 @@ public class MapsActivity extends AppCompatActivity implements GoogleApiClient.C
         UpdateLocationRunnable(LocationManager locMgr, LatLng latlng) {
             this.locMgr = locMgr;
             this.latlng = latlng;
-        } */
+        }
 
         /**
          * Starts executing the active part of the class' code. This method is
          * called when a thread is started that has been created with a class which
          * implements {@code Runnable}.
          */
-       /* @Override
+        @Override
         public void run() {
             try {
-                Log.i(TAG, String.format("Setting Mock Location to: %1$s, %2$s", latlng.latitude, latlng.longitude)); */
+                Log.i(TAG, String.format("Setting Mock Location to: %1$s, %2$s", latlng.latitude, latlng.longitude));
+
                 /*
                     Location can be finicky.  Iterate over our desired location every second for
                     NUMBER_OF_LOCATION_ITERATIONS seconds to help it figure out where we want it to
                     be.
                  */
-              /*  for (int i = 0; !isInterrupted() && i <= NUMBER_OF_LOCATION_ITERATIONS; i++) {
+
+                for (int i = 0; !isInterrupted() && i <= NUMBER_OF_LOCATION_ITERATIONS; i++) {
                     mockGpsLocation = createMockLocation(LocationManager.GPS_PROVIDER, latlng.latitude, latlng.longitude);
                     locMgr.setTestProviderLocation(LocationManager.GPS_PROVIDER, mockGpsLocation);
                     mockNetworkLocation = createMockLocation(LocationManager.NETWORK_PROVIDER, latlng.latitude, latlng.longitude);
@@ -531,4 +538,5 @@ public class MapsActivity extends AppCompatActivity implements GoogleApiClient.C
                 Log.i(TAG, "Done moving location.");
             }
         }
-    } */
+    }
+}
