@@ -9,9 +9,17 @@ public class Questions {
     private String name;
     private String Question;
     private String Answers;
+    private String Finished;
 
     public Questions(){}
 
+    public String getFinished() {
+        return Finished;
+    }
+
+    public void setFinished(String finished) {
+        Finished = finished;
+    }
 
     public int getId() {
         return id;
