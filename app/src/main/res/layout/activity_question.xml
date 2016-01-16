@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:background="@drawable/QuestionWallpaper"
+    tools:context="com.example.r0316137.mobieleapp3.QuestionActivity">
+
+
+    <TextView
+        android:id="@+id/LblQuestion"
+        android:background="#2E2E2E"
+        android:textColor="#FFFFFF"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:alpha = "0.75"
+        android:padding="10dp"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginTop="50dp"
+        android:layout_alignRight="@+id/LblClass"/>
+
+    <Button android:id="@+id/Answer1"
+        android:layout_below="@id/LblQuestion"
+        android:layout_width="fill_parent"
+        android:layout_marginTop="40dp"
+        android:layout_height="60dp"
+        android:alpha="1"
+        android:text="Start" />
+
+    <Button android:id="@+id/Answer2"
+        android:layout_below="@id/Answer1"
+        android:layout_width="fill_parent"
+        android:layout_marginTop="20dp"
+        android:layout_height="60dp"
+        android:alpha="1"
+        android:text="Start" />
+    <Button android:id="@+id/Answer3"
+        android:layout_below="@id/Answer2"
+        android:layout_width="fill_parent"
+        android:layout_marginTop="20dp"
+        android:layout_height="60dp"
+        android:alpha="1"
+        android:text="Start" />
+    <Button android:id="@+id/Answer4"
+        android:layout_below="@id/Answer3"
+        android:layout_width="fill_parent"
+        android:layout_marginTop="20dp"
+        android:layout_height="60dp"
+        android:alpha="1"
+        android:text="Start" />
+
+</RelativeLayout>
