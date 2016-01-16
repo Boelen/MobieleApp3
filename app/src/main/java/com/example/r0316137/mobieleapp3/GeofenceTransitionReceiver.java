@@ -58,18 +58,12 @@ public class GeofenceTransitionReceiver extends WakefulBroadcastReceiver {
             switch (fenceId)
             {
                 case "Home" :
+
                     Intent intent = new Intent(this.context,TestActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(intent);
             }
 
-            /*
-            TODO
-            1. MAPS
-            2. Database
-            3. LifeCycles
-            4. +- NewsReader
-         */
 
             Toast.makeText(context, String.format("Entered this fence: %1$s", fenceId), Toast.LENGTH_SHORT).show();
             Log.i(TAG, String.format("Entered this fence: %1$s", fenceId));

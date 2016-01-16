@@ -51,7 +51,8 @@ public class MapsActivity extends AppCompatActivity implements GoogleApiClient.C
     private static final int NUMBER_OF_LOCATION_ITERATIONS = 10;
 
     private GoogleMap googleMap; // Might be null if Google Play services APK is not available.
-    private MyPlaces happyPlace;
+    private MyPlaces school;
+    private MyPlaces plopsa;
     private MyPlaces home;
     private List<Geofence> myFences = new ArrayList<>();
     private GoogleApiClient googleApiClient;
@@ -93,8 +94,8 @@ public class MapsActivity extends AppCompatActivity implements GoogleApiClient.C
         MyPlaces place;
         switch (v.getId()) {
             case R.id.ib_happy_place:
-                Toast.makeText(this, "You Clicked Happy Place", Toast.LENGTH_SHORT).show();
-                place = happyPlace;
+                Toast.makeText(this, "You Clicked plopsa", Toast.LENGTH_SHORT).show();
+                place = plopsa;
                 moveToLocation(place);
                 break;
             case R.id.ib_home:
@@ -211,22 +212,20 @@ public class MapsActivity extends AppCompatActivity implements GoogleApiClient.C
         googleMap.setBuildingsEnabled(true);
 
 
-        // Add a place with a Geofence
-        happyPlace = new MyPlaces("Pier @ Folly Beach", "This is my Happy Place!", new LatLng(32.652411, -79.938063), 10000, 10, R.drawable.ic_palm_tree);
-        addPlaceMarker(happyPlace);
-        addFence(happyPlace);
+        school = new MyPlaces("UCLL","This is your school!",new LatLng(50.9287358, 5.3942763 ), 10000 , 10 , R.drawable.abc_spinner_mtrl_am_alpha);
+        addPlaceMarker(school);
+        addFence(school);
 
-        // Add a place with a Geofence
-        // Work 39.3336585, -84.3146718
-        // Home 39.2697455, -84.269921
         home = new MyPlaces("Home", "This is where I live.", new LatLng(55.971724, 5.551238), 10000, 10, R.drawable.ic_home);
         addPlaceMarker(home);
         addFence(home);
 
+
+
         // Add a place w/o a Geofence
-        MyPlaces charleston = new MyPlaces("Charleston, SC", "This is where I want to live!", new LatLng(32.8210454, -79.9704779), 0, 10, R.drawable.ic_heart);
-        addPlaceMarker(charleston);
-        addFence(charleston);
+        plopsa = new MyPlaces("Plopsa Indor", "This is where I want to play!", new LatLng(50.934026,5.3587655), 100, 10, R.drawable.ic_heart);
+        addPlaceMarker(plopsa);
+        addFence(plopsa);
 
         /*
             After all your places have been created and markers added you can monitor your fences.
@@ -451,12 +450,17 @@ public class MapsActivity extends AppCompatActivity implements GoogleApiClient.C
 
         Log.i(TAG, "LocationUpdates2");
 
+       if(currLocationMarker != null)
+       {
+           currLocationMarker.remove();
+       }
+
         LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(new LatLng(location.getLatitude(), location.getLongitude()));
         markerOptions.title("Current Position");
         markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.emo_im_laughing));
-        newLocationmarker = googleMap.addMarker(markerOptions);
+        currLocationMarker = googleMap.addMarker(markerOptions);
         Toast.makeText(this, "Location Changed" + location.getLatitude() + " " + location.getLongitude(), Toast.LENGTH_SHORT).show();
 
     }
