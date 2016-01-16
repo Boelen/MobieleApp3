@@ -13,6 +13,15 @@ public class Questions {
 
     public Questions(){}
 
+    public Questions(int id, String name, String Question, String Answers , String Finished)
+    {
+        this.id = id;
+        this.name = name;
+        this.Question = Question;
+        this.Answers = Answers;
+        this.Finished = Finished;
+    }
+
     public String getFinished() {
         return Finished;
     }
