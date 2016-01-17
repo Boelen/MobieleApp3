@@ -1,7 +1,9 @@
 package com.example.r0316137.mobieleapp3;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
@@ -16,6 +18,9 @@ implements  TextView.OnEditorActionListener, View.OnClickListener{
     private Button answer2;
     private Button answer3;
     private Button answer4;
+
+    String Value;
+    String Name = "UCLL";
 
     QuestionScoreDB db = new QuestionScoreDB(this);
 
@@ -42,14 +47,47 @@ implements  TextView.OnEditorActionListener, View.OnClickListener{
         answer4 = (Button) findViewById(R.id.Answer4);
 
 
-       Questions thisQuestion = db.getQuestion(1);
+       Bundle b = getIntent().getExtras();
 
-        question.setText(thisQuestion.getQuestion());
-        String[] AllAnswers = thisQuestion.getAnswers().split(";");
-        answer1.setText(AllAnswers[0]);
-        answer2.setText(AllAnswers[1]);
-        answer3.setText(AllAnswers[2]);
-        answer4.setText(AllAnswers[3]);
+        if (b != null)
+        {
+            Value = b.getString("PlaceName").toString();
+
+
+        }
+
+        if ( Value.equals("UCLL")) {
+            Questions thisQuestion = db.getQuestion(1);
+
+            question.setText(thisQuestion.getQuestion());
+            String[] AllAnswers = thisQuestion.getAnswers().split(";");
+            answer1.setText(AllAnswers[0]);
+            answer2.setText(AllAnswers[1]);
+            answer3.setText(AllAnswers[2]);
+            answer4.setText(AllAnswers[3]);
+        }
+
+        if ( Value.equals("Home")) {
+            Questions thisQuestion = db.getQuestion(2);
+
+            question.setText(thisQuestion.getQuestion());
+            String[] AllAnswers = thisQuestion.getAnswers().split(";");
+            answer1.setText(AllAnswers[0]);
+            answer2.setText(AllAnswers[1]);
+            answer3.setText(AllAnswers[2]);
+            answer4.setText(AllAnswers[3]);
+        }
+
+        if ( Value.equals("Plopsa")) {
+            Questions thisQuestion = db.getQuestion(3);
+
+            question.setText(thisQuestion.getQuestion());
+            String[] AllAnswers = thisQuestion.getAnswers().split(";");
+            answer1.setText(AllAnswers[0]);
+            answer2.setText(AllAnswers[1]);
+            answer3.setText(AllAnswers[2]);
+            answer4.setText(AllAnswers[3]);
+        }
 
 
 

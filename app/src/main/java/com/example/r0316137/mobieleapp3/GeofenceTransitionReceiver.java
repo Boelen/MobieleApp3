@@ -62,7 +62,22 @@ public class GeofenceTransitionReceiver extends WakefulBroadcastReceiver {
 
                     Intent intent = new Intent(this.context, QuestionActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.putExtra("PlaceName","UCLL");
                     context.startActivity(intent);
+
+                case "Home" :
+
+                    Intent intent2 = new Intent(this.context, QuestionActivity.class);
+                    intent2.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent2.putExtra("PlaceName", "Home");
+                    context.startActivity(intent2);
+
+                case "Plopsa":
+
+                    Intent intent3 = new Intent(this.context, QuestionActivity.class);
+                    intent3.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent3.putExtra("PlaceName","Plopsa");
+                    context.startActivity(intent3);
             }
 
 

@@ -116,6 +116,7 @@ public class QuestionScoreDB {
 
             db.execSQL("INSERT INTO questions VALUES (1, 'vraag 1' , ' Op welke straat bevind je je nu?' , 'schepersweg;donderweg;banaanstraat;rareweg' , '0')");
             db.execSQL("INSERT INTO questions VALUES (2, 'vraag 2' , ' Op welke waterloop sta je nu?' , 'albertkanaal;De maas;De schelde;ijzer' , '0')");
+            db.execSQL("INSERT INTO questions VALUES (3, 'vraag 3' , ' Op welke gesteente staan we nu?' , 'klei;leem;alleen zand;zandleem' , '0')");
 
 
             db.execSQL(CREATE_SCOREBOARD_TABLE);
@@ -162,6 +163,7 @@ public class QuestionScoreDB {
 
         Cursor cursor = db.query(QUESTIONS_TABLE, new String[] { QUESTIONS_ID, QUESTIONS_NAME , QUESTIONS_QUESTION,  QUESTIONS_ANSWERS , QUESTIONS_FINISHED}, QUESTIONS_ID + "=?",
                 new String[] {String.valueOf(id)}, null,null,null,null);
+
         if (cursor != null)
             cursor.moveToFirst();
 

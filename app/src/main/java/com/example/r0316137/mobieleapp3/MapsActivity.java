@@ -212,18 +212,18 @@ public class MapsActivity extends AppCompatActivity implements GoogleApiClient.C
         googleMap.setBuildingsEnabled(true);
 
 
-        school = new MyPlaces("UCLL","This is your school!",new LatLng(50.9287358, 5.3942763 ), 10000 , 10 , R.drawable.abc_spinner_mtrl_am_alpha);
+        school = new MyPlaces("UCLL","This is your school!",new LatLng(50.9287358, 5.3942763 ), 500 , 10 , R.drawable.abc_spinner_mtrl_am_alpha);
         addPlaceMarker(school);
         addFence(school);
 
-        home = new MyPlaces("Home", "This is where I live.", new LatLng(55.971724, 5.551238), 10000, 10, R.drawable.ic_home);
+        home = new MyPlaces("Home", "This is where I live.", new LatLng(50.971724, 5.551238), 500, 10, R.drawable.ic_home);
         addPlaceMarker(home);
         addFence(home);
 
 
 
         // Add a place w/o a Geofence
-        plopsa = new MyPlaces("Plopsa Indor", "This is where I want to play!", new LatLng(50.934026,5.3587655), 100, 10, R.drawable.ic_heart);
+        plopsa = new MyPlaces("Plopsa", "This is where I want to play!", new LatLng(50.934026,5.3587655), 500, 10, R.drawable.ic_heart);
         addPlaceMarker(plopsa);
         addFence(plopsa);
 
