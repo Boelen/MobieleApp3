@@ -82,20 +82,20 @@ public class QuestionScoreDB {
 
     public static final String CREATE_QUESTIONS_TABLE =
             "CREATE TABLE " + QUESTIONS_TABLE + " ( " +
-                    QUESTIONS_ID + "INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    QUESTIONS_NAME + "TEXT NOT NULL, " +
-                    QUESTIONS_QUESTION + "TEXT NOT NULL, " +
-                    QUESTIONS_ANSWERS + "TEXT NOT NULL, " +
-                    QUESTIONS_FINISHED + "TEXT);";
+                    QUESTIONS_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    QUESTIONS_NAME + " TEXT NOT NULL, " +
+                    QUESTIONS_QUESTION + " TEXT NOT NULL, " +
+                    QUESTIONS_ANSWERS + " TEXT NOT NULL, " +
+                    QUESTIONS_FINISHED + " TEXT);";
 
 
     public static final String CREATE_SCOREBOARD_TABLE =
-            "CREATE TABLE" + SCOREBOARD_TABLE + " ( " +
-                    SCOREBOARD_ID + "INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    SCOREBOARD_GROUPNAME + "TEXT NOT NULL, " +
-                    SCOREBOARD_CLASSNAME + "TEXT NOT NULL, " +
-                    SCOREBOARD_SCORE + "INTEGER NOT NULL, " +
-                    SCOREBOARD_TIME + "TEXT NOT NULL);";
+            "CREATE TABLE " + SCOREBOARD_TABLE + " ( " +
+                    SCOREBOARD_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    SCOREBOARD_GROUPNAME + " TEXT NOT NULL, " +
+                    SCOREBOARD_CLASSNAME + " TEXT NOT NULL, " +
+                    SCOREBOARD_SCORE + " INTEGER NOT NULL, " +
+                    SCOREBOARD_TIME + " TEXT NOT NULL);";
 
     public static final String DROP_QUESTIONS_TABLE =
             "DROP TABLE IF EXISTS " + QUESTIONS_TABLE;
@@ -114,8 +114,8 @@ public class QuestionScoreDB {
         public void onCreate(SQLiteDatabase db) {
             db.execSQL(CREATE_QUESTIONS_TABLE);
 
-            db.execSQL("INSERT INTO questions VALUES (1, 'vraag 1' , ' Op welke straat bevind je je nu?' , 'schepersweg;donderweg;banaanstraat' , 0");
-            db.execSQL("INSERT INTO questions VALUES (2, 'vraag 2' , ' Op welke waterloop sta je nu?' , 'albertkanaal;De maas;De schelde' , 0");
+            db.execSQL("INSERT INTO questions VALUES (1, 'vraag 1' , ' Op welke straat bevind je je nu?' , 'schepersweg;donderweg;banaanstraat;rareweg' , '0')");
+            db.execSQL("INSERT INTO questions VALUES (2, 'vraag 2' , ' Op welke waterloop sta je nu?' , 'albertkanaal;De maas;De schelde;ijzer' , '0')");
 
 
             db.execSQL(CREATE_SCOREBOARD_TABLE);
@@ -160,7 +160,7 @@ public class QuestionScoreDB {
     public Questions getQuestion(int id) {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
-        Cursor cursor = db.query(QUESTIONS_TABLE, new String[] { QUESTIONS_ID, QUESTIONS_NAME , QUESTIONS_ANSWERS , QUESTIONS_FINISHED}, QUESTIONS_ID + "=?",
+        Cursor cursor = db.query(QUESTIONS_TABLE, new String[] { QUESTIONS_ID, QUESTIONS_NAME , QUESTIONS_QUESTION,  QUESTIONS_ANSWERS , QUESTIONS_FINISHED}, QUESTIONS_ID + "=?",
                 new String[] {String.valueOf(id)}, null,null,null,null);
         if (cursor != null)
             cursor.moveToFirst();

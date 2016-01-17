@@ -5,7 +5,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    android:background="@drawable/QuestionWallpaper"
+    android:background="@drawable/ic_homebackground"
     tools:context="com.example.r0316137.mobieleapp3.QuestionActivity">
 
 
@@ -15,9 +15,8 @@
         android:textColor="#FFFFFF"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:alpha = "0.75"
+        android:alpha = "0.50"
         android:padding="10dp"
-        android:textSize="20sp"
         android:textStyle="bold"
         android:layout_marginTop="50dp"
         android:layout_alignRight="@+id/LblClass"/>
@@ -27,29 +26,31 @@
         android:layout_width="fill_parent"
         android:layout_marginTop="40dp"
         android:layout_height="60dp"
-        android:alpha="1"
-        android:text="Start" />
+        android:alpha="0.50"
+        android:textStyle="bold"/>
 
     <Button android:id="@+id/Answer2"
         android:layout_below="@id/Answer1"
         android:layout_width="fill_parent"
         android:layout_marginTop="20dp"
         android:layout_height="60dp"
-        android:alpha="1"
-        android:text="Start" />
+        android:alpha="0.50"
+        android:textStyle="bold"/>
+
     <Button android:id="@+id/Answer3"
         android:layout_below="@id/Answer2"
         android:layout_width="fill_parent"
         android:layout_marginTop="20dp"
         android:layout_height="60dp"
-        android:alpha="1"
-        android:text="Start" />
+        android:alpha="0.50"
+        android:textStyle="bold"/>
+
     <Button android:id="@+id/Answer4"
         android:layout_below="@id/Answer3"
         android:layout_width="fill_parent"
         android:layout_marginTop="20dp"
         android:layout_height="60dp"
-        android:alpha="1"
-        android:text="Start" />
+        android:alpha="0.50"
+        android:textStyle="bold"/>
 
 </RelativeLayout>

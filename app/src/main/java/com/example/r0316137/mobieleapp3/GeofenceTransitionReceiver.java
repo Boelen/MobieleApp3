@@ -12,6 +12,7 @@ import android.support.v4.content.WakefulBroadcastReceiver;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.google.android.gms.games.quest.Quest;
 import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.GeofencingEvent;
 
@@ -57,9 +58,9 @@ public class GeofenceTransitionReceiver extends WakefulBroadcastReceiver {
 
             switch (fenceId)
             {
-                case "Home" :
+                case "UCLL" :
 
-                    Intent intent = new Intent(this.context,TestActivity.class);
+                    Intent intent = new Intent(this.context, QuestionActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(intent);
             }
