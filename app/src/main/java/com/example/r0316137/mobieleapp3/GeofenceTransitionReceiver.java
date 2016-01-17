@@ -7,6 +7,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.WakefulBroadcastReceiver;
 import android.util.Log;
@@ -54,6 +55,8 @@ public class GeofenceTransitionReceiver extends WakefulBroadcastReceiver {
     }
 
     protected void onEnteredGeofences(String[] geofenceIds ) {
+
+
         for (String fenceId : geofenceIds) {
 
             switch (fenceId)
@@ -62,8 +65,9 @@ public class GeofenceTransitionReceiver extends WakefulBroadcastReceiver {
 
                     Intent intent = new Intent(this.context, QuestionActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    intent.putExtra("PlaceName","UCLL");
+                    intent.putExtra("PlaceName", "UCLL");
                     context.startActivity(intent);
+                    break;
 
                 case "Home" :
 
@@ -71,6 +75,7 @@ public class GeofenceTransitionReceiver extends WakefulBroadcastReceiver {
                     intent2.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     intent2.putExtra("PlaceName", "Home");
                     context.startActivity(intent2);
+                    break;
 
                 case "Plopsa":
 
@@ -78,6 +83,7 @@ public class GeofenceTransitionReceiver extends WakefulBroadcastReceiver {
                     intent3.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     intent3.putExtra("PlaceName","Plopsa");
                     context.startActivity(intent3);
+                    break;
             }
 
 

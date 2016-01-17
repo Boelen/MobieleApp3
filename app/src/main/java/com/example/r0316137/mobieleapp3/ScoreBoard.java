@@ -9,9 +9,27 @@ public class ScoreBoard {
     private String GroupName;
     private String ClassName;
     private int Score;
-    private int Time;
+    private String Time;
 
     public ScoreBoard(){}
+
+    public ScoreBoard(String GroupName,String ClassName, int Score , String Time)
+    {
+
+        this.GroupName = GroupName;
+        this.ClassName = ClassName;
+        this.Score = Score;
+        this.Time = Time;
+    }
+
+    public ScoreBoard(int id, String GroupName,String ClassName, int Score , String Time)
+    {
+        this.id = id;
+        this.GroupName = GroupName;
+        this.ClassName = ClassName;
+        this.Score = Score;
+        this.Time = Time;
+    }
 
     public String getGroupName() {
         return GroupName;
@@ -45,11 +63,11 @@ public class ScoreBoard {
         Score = score;
     }
 
-    public int getTime() {
+    public String getTime() {
         return Time;
     }
 
-    public void setTime(int time) {
+    public void setTime(String time) {
         Time = time;
     }
 }

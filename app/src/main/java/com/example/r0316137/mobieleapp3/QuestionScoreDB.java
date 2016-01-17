@@ -56,8 +56,11 @@ public class QuestionScoreDB {
     public static final String QUESTIONS_ANSWERS = "Questions_Answers";
     public static final int QUESTIONS_ANSWERS_COL = 3;
 
+    public static final String QUESTIONS_RIGHTANSWER = "Questions_RightAnswer";
+    public static final int QUESTIONS_RIGHTANSWER_COL = 4;
+
     public static final String QUESTIONS_FINISHED = "Questions_Finished";
-    public static final int QUESTIONS_FINISHED_COL = 4;
+    public static final int QUESTIONS_FINISHED_COL = 5;
 
     /////////////////////////////////////////////////////////:
 
@@ -86,13 +89,14 @@ public class QuestionScoreDB {
                     QUESTIONS_NAME + " TEXT NOT NULL, " +
                     QUESTIONS_QUESTION + " TEXT NOT NULL, " +
                     QUESTIONS_ANSWERS + " TEXT NOT NULL, " +
+                    QUESTIONS_RIGHTANSWER + " TEXT NOT NULL, " +
                     QUESTIONS_FINISHED + " TEXT);";
 
 
     public static final String CREATE_SCOREBOARD_TABLE =
             "CREATE TABLE " + SCOREBOARD_TABLE + " ( " +
                     SCOREBOARD_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    SCOREBOARD_GROUPNAME + " TEXT NOT NULL, " +
+                    SCOREBOARD_GROUPNAME + " TEXT UNIQUE NOT NULL, " +
                     SCOREBOARD_CLASSNAME + " TEXT NOT NULL, " +
                     SCOREBOARD_SCORE + " INTEGER NOT NULL, " +
                     SCOREBOARD_TIME + " TEXT NOT NULL);";
@@ -114,9 +118,9 @@ public class QuestionScoreDB {
         public void onCreate(SQLiteDatabase db) {
             db.execSQL(CREATE_QUESTIONS_TABLE);
 
-            db.execSQL("INSERT INTO questions VALUES (1, 'vraag 1' , ' Op welke straat bevind je je nu?' , 'schepersweg;donderweg;banaanstraat;rareweg' , '0')");
-            db.execSQL("INSERT INTO questions VALUES (2, 'vraag 2' , ' Op welke waterloop sta je nu?' , 'albertkanaal;De maas;De schelde;ijzer' , '0')");
-            db.execSQL("INSERT INTO questions VALUES (3, 'vraag 3' , ' Op welke gesteente staan we nu?' , 'klei;leem;alleen zand;zandleem' , '0')");
+            db.execSQL("INSERT INTO questions VALUES (1, 'vraag 1' , ' Op welke straat bevind je je nu?' , 'schepersweg;donderweg;banaanstraat;rareweg', '1' , '0')");
+            db.execSQL("INSERT INTO questions VALUES (2, 'vraag 2' , ' Op welke waterloop sta je nu?' , 'albertkanaal;De maas;De schelde;ijzer' , '2', '0')");
+            db.execSQL("INSERT INTO questions VALUES (3, 'vraag 3' , ' Op welke gesteente staan we nu?' , 'klei;leem;alleen zand;zandleem' , '3', '0')");
 
 
             db.execSQL(CREATE_SCOREBOARD_TABLE);
@@ -149,7 +153,7 @@ public class QuestionScoreDB {
                 scoreBoard.setGroupName(cursor.getString(1));
                 scoreBoard.setClassName(cursor.getString(2));
                 scoreBoard.setScore((Integer.parseInt(cursor.getString(3))));
-                scoreBoard.setTime((Integer.parseInt(cursor.getString(4))));
+                scoreBoard.setTime(cursor.getString(4));
                 scoreBoardList.add(scoreBoard);
             } while (cursor.moveToNext());
 
@@ -161,15 +165,29 @@ public class QuestionScoreDB {
     public Questions getQuestion(int id) {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
-        Cursor cursor = db.query(QUESTIONS_TABLE, new String[] { QUESTIONS_ID, QUESTIONS_NAME , QUESTIONS_QUESTION,  QUESTIONS_ANSWERS , QUESTIONS_FINISHED}, QUESTIONS_ID + "=?",
-                new String[] {String.valueOf(id)}, null,null,null,null);
+        Cursor cursor = db.query(QUESTIONS_TABLE, new String[]{QUESTIONS_ID, QUESTIONS_NAME, QUESTIONS_QUESTION, QUESTIONS_ANSWERS, QUESTIONS_RIGHTANSWER, QUESTIONS_FINISHED}, QUESTIONS_ID + "=?",
+                new String[]{String.valueOf(id)}, null, null, null, null);
 
         if (cursor != null)
             cursor.moveToFirst();
 
-        Questions question = new Questions(Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4));
+        Questions question = new Questions(Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4) , cursor.getString(5));
 
         return question;
+    }
+
+    public ScoreBoard getPersonalScoreBoard(String Name)
+    {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = db.query(SCOREBOARD_TABLE, new String[]{SCOREBOARD_ID, SCOREBOARD_GROUPNAME, SCOREBOARD_CLASSNAME, SCOREBOARD_SCORE, SCOREBOARD_TIME}, SCOREBOARD_GROUPNAME + "=?",
+                new String[]{String.valueOf(Name)}, null, null, null, null);
+
+        if (cursor != null)
+            cursor.moveToFirst();
+
+        ScoreBoard scoreBoard = new ScoreBoard(Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2), Integer.parseInt(cursor.getString(3)), cursor.getString(4));
+
+        return scoreBoard;
     }
 
 
@@ -209,6 +227,7 @@ public class QuestionScoreDB {
         cv.put(QUESTIONS_NAME,questions.getName());
         cv.put(QUESTIONS_QUESTION,questions.getQuestion());
         cv.put(QUESTIONS_ANSWERS,questions.getAnswers());
+        cv.put(QUESTIONS_RIGHTANSWER,questions.getRightAnswer());
         cv.put(QUESTIONS_FINISHED, questions.getFinished());
 
         String where = QUESTIONS_ID + "= ?";

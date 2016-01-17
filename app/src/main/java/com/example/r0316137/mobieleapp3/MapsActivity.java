@@ -438,7 +438,16 @@ public class MapsActivity extends AppCompatActivity implements GoogleApiClient.C
         if (geofencePendingIntent != null) {
             return geofencePendingIntent;
         } else {
+
+            String Value = null;
+//            Bundle b = getIntent().getExtras();
+//
+//            if (b != null) {
+//               Value = b.getString("GroupsID").toString();
+//            }
+
             Intent intent = new Intent(this, GeofenceTransitionReceiver.class);
+           // intent.putExtra("GroupsID",Value);
             intent.setAction("geofence_transition_action");
             return PendingIntent.getBroadcast(this, R.id.geofence_transition_intent, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         }

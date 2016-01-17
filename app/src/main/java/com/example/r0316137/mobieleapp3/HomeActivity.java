@@ -10,6 +10,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.DateFormat;
+import java.util.Date;
+
 public class HomeActivity extends AppCompatActivity
 implements TextView.OnEditorActionListener,View.OnClickListener{
 
@@ -18,6 +21,12 @@ implements TextView.OnEditorActionListener,View.OnClickListener{
     private EditText className;
     private Button startGame;
     private Button scoreTabel;
+
+    private QuestionScoreDB db;
+    private int Score = 0;
+    private String Time  = DateFormat.getDateTimeInstance().format(new Date());
+    private String groupNameString;
+    private String classNameString;
 
 
     @Override
@@ -43,13 +52,23 @@ implements TextView.OnEditorActionListener,View.OnClickListener{
 
     @Override
     public void onClick(View v) {
+        groupNameString = groupName.getText().toString();
+        classNameString = className.getText().toString();
+        db = new QuestionScoreDB(this);
+
+
         switch (v.getId())
         {
             case R.id.Button02:
                 Boolean CheckInput = CheckInput();
 
                 if(CheckInput == true) {
+                    ScoreBoard SB = new ScoreBoard(groupNameString,classNameString,Score,Time);
+                    db.insertScoreBoard(SB);
+                    ScoreBoard YourEntry = db.getPersonalScoreBoard(groupNameString);
+
                     Intent intent = new Intent(this, MapsActivity.class);
+                   // intent.putExtra("GroupsID",YourEntry.getGroupName());
                     startActivity(intent);
                 }
                 break;

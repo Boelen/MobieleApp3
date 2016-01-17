@@ -10,16 +10,26 @@ public class Questions {
     private String Question;
     private String Answers;
     private String Finished;
+    private String RightAnswer;
 
     public Questions(){}
 
-    public Questions(int id, String name, String Question, String Answers , String Finished)
+    public Questions(int id, String name, String Question, String Answers , String RightAnswer, String Finished)
     {
         this.id = id;
         this.name = name;
         this.Question = Question;
         this.Answers = Answers;
+        this.RightAnswer = RightAnswer;
         this.Finished = Finished;
+    }
+
+    public String getRightAnswer() {
+        return RightAnswer;
+    }
+
+    public void setRightAnswer(String rightAnswer) {
+        RightAnswer = rightAnswer;
     }
 
     public String getFinished() {
