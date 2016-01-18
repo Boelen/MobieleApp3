@@ -34,17 +34,6 @@
         android:contentDescription="@string/cont_desc_home_btn"
         android:src="@drawable/ic_home" />
 
-    <ImageButton
-        android:id="@+id/ib_happy_place"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/ib_home"
-        android:contentDescription="@string/cont_desc_happyplace_btn"
-        android:minHeight="2dp"
-        android:maxHeight="2dp"
-        android:src="@drawable/ic_palm_tree" />
 
     <ImageButton
         android:id="@+id/ib_reset"

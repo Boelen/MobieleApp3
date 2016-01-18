@@ -139,6 +139,18 @@ public class QuestionScoreDB {
         }
     }
 
+    public void DropQuestions()
+    {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        db.execSQL(QuestionScoreDB.DROP_QUESTIONS_TABLE);
+        db.execSQL(CREATE_QUESTIONS_TABLE);
+
+        db.execSQL("INSERT INTO questions VALUES (1, 'vraag 1' , ' Op welke straat bevind je je nu?' , 'schepersweg;donderweg;banaanstraat;rareweg', '1' , '0')");
+        db.execSQL("INSERT INTO questions VALUES (2, 'vraag 2' , ' Op welke waterloop sta je nu?' , 'albertkanaal;De maas;De schelde;ijzer' , '2', '0')");
+        db.execSQL("INSERT INTO questions VALUES (3, 'vraag 3' , ' Op welke gesteente staan we nu?' , 'klei;leem;alleen zand;zandleem' , '3', '0')");
+    }
+
     public List<ScoreBoard> getScoreBoard() {
         List<ScoreBoard> scoreBoardList = new ArrayList<ScoreBoard>();
         String selectQuery = "SELECT * FROM " + SCOREBOARD_TABLE;
@@ -162,6 +174,7 @@ public class QuestionScoreDB {
     }
 
 
+
     public Questions getQuestion(int id) {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
@@ -174,6 +187,20 @@ public class QuestionScoreDB {
         Questions question = new Questions(Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4) , cursor.getString(5));
 
         return question;
+    }
+
+    public ScoreBoard getPersonalScoreBoard(int id)
+    {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = db.query(SCOREBOARD_TABLE, new String[]{SCOREBOARD_ID, SCOREBOARD_GROUPNAME, SCOREBOARD_CLASSNAME, SCOREBOARD_SCORE, SCOREBOARD_TIME}, SCOREBOARD_ID + "=?",
+                new String[]{String.valueOf(id)}, null, null, null, null);
+
+        if (cursor != null)
+            cursor.moveToFirst();
+
+        ScoreBoard scoreBoard = new ScoreBoard(Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2), Integer.parseInt(cursor.getString(3)), cursor.getString(4));
+
+        return scoreBoard;
     }
 
     public ScoreBoard getPersonalScoreBoard(String Name)

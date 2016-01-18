@@ -8,6 +8,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.games.quest.Quest;
 
@@ -41,9 +42,26 @@ implements  TextView.OnEditorActionListener, View.OnClickListener {
 
                 if( NummerKnop == JuistAntwoord )
                 {
+                    MyApplication appState = ((MyApplication)getApplicationContext());
+                    int id = appState.getGroupId();
+                    ScoreBoard scoreBoard = db.getPersonalScoreBoard(id);
+                    int TijdelijkeScore = scoreBoard.getScore() + 200;
+                    scoreBoard.setScore(TijdelijkeScore);
 
-                  //  db.updateScoreBoard()
+                    thisQuestion.setFinished("1");
+                    db.updateQuestions(thisQuestion);
+
+                    Log.i("test",String.valueOf(scoreBoard.getScore()));
                     finish();
+                }
+                else
+                {
+                    MyApplication appState = ((MyApplication)getApplicationContext());
+                    int id = appState.getGroupId();
+                    ScoreBoard scoreBoard = db.getPersonalScoreBoard(id);
+                    int TijdelijkeScore = scoreBoard.getScore() - 100;
+                    scoreBoard.setScore(TijdelijkeScore);
+                    db.updateScoreBoard(scoreBoard);
                 }
 
                 break;
@@ -53,7 +71,26 @@ implements  TextView.OnEditorActionListener, View.OnClickListener {
 
                 if( NummerKnop == JuistAntwoord )
                 {
+                    MyApplication appState = ((MyApplication)getApplicationContext());
+                    int id = appState.getGroupId();
+                    ScoreBoard scoreBoard = db.getPersonalScoreBoard(id);
+                    int TijdelijkeScore = scoreBoard.getScore() + 200;
+                    scoreBoard.setScore(TijdelijkeScore);
+
+                    thisQuestion.setFinished("1");
+                    db.updateQuestions(thisQuestion);
+
+                    Log.i("test",String.valueOf(scoreBoard.getScore()));
                     finish();
+                }
+                else
+                {
+                    MyApplication appState = ((MyApplication)getApplicationContext());
+                    int id = appState.getGroupId();
+                    ScoreBoard scoreBoard = db.getPersonalScoreBoard(id);
+                    int TijdelijkeScore = scoreBoard.getScore() - 100;
+                    scoreBoard.setScore(TijdelijkeScore);
+                    db.updateScoreBoard(scoreBoard);
                 }
 
                 break;
@@ -63,7 +100,27 @@ implements  TextView.OnEditorActionListener, View.OnClickListener {
 
                 if( NummerKnop == JuistAntwoord )
                 {
+                    MyApplication appState = ((MyApplication)getApplicationContext());
+                    int id = appState.getGroupId();
+                    ScoreBoard scoreBoard = db.getPersonalScoreBoard(id);
+                    int TijdelijkeScore = scoreBoard.getScore() + 200;
+                    scoreBoard.setScore(TijdelijkeScore);
+
+                    thisQuestion.setFinished("1");
+                    db.updateQuestions(thisQuestion);
+
+                    Log.i("test",String.valueOf(scoreBoard.getScore()));
                     finish();
+                }
+                else
+                {
+                    MyApplication appState = ((MyApplication)getApplicationContext());
+                    int id = appState.getGroupId();
+                    ScoreBoard scoreBoard = db.getPersonalScoreBoard(id);
+                    int TijdelijkeScore = scoreBoard.getScore() - 100;
+                    scoreBoard.setScore(TijdelijkeScore);
+                    db.updateScoreBoard(scoreBoard);
+
                 }
 
                 break;
@@ -73,10 +130,42 @@ implements  TextView.OnEditorActionListener, View.OnClickListener {
 
                 if( NummerKnop == JuistAntwoord )
                 {
+                    MyApplication appState = ((MyApplication)getApplicationContext());
+                    int id = appState.getGroupId();
+
+                    //score
+                    ScoreBoard scoreBoard = db.getPersonalScoreBoard(id);
+                    int TijdelijkeScore = scoreBoard.getScore() + 200;
+                    scoreBoard.setScore(TijdelijkeScore);
+                    db.updateScoreBoard(scoreBoard);
+
+                    //Question op gedaan zetten.
+                    thisQuestion.setFinished("1");
+                    db.updateQuestions(thisQuestion);
+
+                    Log.i("test",String.valueOf(scoreBoard.getScore()));
                     finish();
                 }
-
+                else
+                {
+                    MyApplication appState = ((MyApplication)getApplicationContext());
+                    int id = appState.getGroupId();
+                    ScoreBoard scoreBoard = db.getPersonalScoreBoard(id);
+                    int TijdelijkeScore = scoreBoard.getScore() - 100;
+                    scoreBoard.setScore(TijdelijkeScore);
+                    db.updateScoreBoard(scoreBoard);
+                }
                 break;
+            default:
+                MyApplication appState = ((MyApplication)getApplicationContext());
+                int id = appState.getGroupId();
+                ScoreBoard scoreBoard = db.getPersonalScoreBoard(id);
+                int TijdelijkeScore = scoreBoard.getScore() - 100;
+                scoreBoard.setScore(TijdelijkeScore);
+                db.updateScoreBoard(scoreBoard);
+
+                Log.i("test", String.valueOf(scoreBoard.getScore()));
+
         }
     }
 
@@ -124,6 +213,13 @@ implements  TextView.OnEditorActionListener, View.OnClickListener {
         if (Value.equals("UCLL")) {
             thisQuestion = db.getQuestion(1);
 
+            if(thisQuestion.getFinished().equals("1"))
+            {
+                Toast toast = Toast.makeText(getApplicationContext(),"Je hebt de vraag in deze zone al opgelost",Toast.LENGTH_SHORT);
+                toast.show();
+                finish();
+            }
+
             question.setText(thisQuestion.getQuestion());
             String[] AllAnswers = thisQuestion.getAnswers().split(";");
             answer1.setText(AllAnswers[0]);
@@ -135,6 +231,13 @@ implements  TextView.OnEditorActionListener, View.OnClickListener {
         if (Value.equals("Home")) {
             thisQuestion = db.getQuestion(2);
 
+            if(thisQuestion.getFinished().equals("1"))
+            {
+                Toast toast = Toast.makeText(getApplicationContext(),"Je hebt de vraag in deze zone al opgelost",Toast.LENGTH_LONG);
+                toast.show();
+                finish();
+            }
+
             question.setText(thisQuestion.getQuestion());
             String[] AllAnswers = thisQuestion.getAnswers().split(";");
             answer1.setText(AllAnswers[0]);
@@ -145,6 +248,13 @@ implements  TextView.OnEditorActionListener, View.OnClickListener {
 
         if (Value.equals("Plopsa")) {
             thisQuestion = db.getQuestion(3);
+
+            if(thisQuestion.getFinished().equals("1"))
+            {
+                Toast toast = Toast.makeText(getApplicationContext(),"Je hebt de vraag in deze zone al opgelost",Toast.LENGTH_SHORT);
+                toast.show();
+                finish();
+            }
 
             question.setText(thisQuestion.getQuestion());
             String[] AllAnswers = thisQuestion.getAnswers().split(";");

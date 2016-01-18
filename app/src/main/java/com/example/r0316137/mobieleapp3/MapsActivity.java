@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.location.Criteria;
 import android.location.Location;
+
+import com.google.android.gms.games.quest.Quest;
 import com.google.android.gms.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
@@ -71,14 +73,11 @@ public class MapsActivity extends AppCompatActivity implements GoogleApiClient.C
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
 
-        ImageButton happyPlaceBtn = (ImageButton) findViewById(R.id.ib_happy_place);
-        happyPlaceBtn.setOnClickListener(this);
+
 
         ImageButton homeBtn = (ImageButton) findViewById(R.id.ib_home);
         homeBtn.setOnClickListener(this);
 
-        ImageButton resetBtn = (ImageButton) findViewById(R.id.ib_reset);
-        resetBtn.setOnClickListener(this);
 
         setUpMapIfNeeded();
     }
@@ -93,15 +92,25 @@ public class MapsActivity extends AppCompatActivity implements GoogleApiClient.C
 
         MyPlaces place;
         switch (v.getId()) {
-            case R.id.ib_happy_place:
-                Toast.makeText(this, "You Clicked plopsa", Toast.LENGTH_SHORT).show();
-                place = plopsa;
-                moveToLocation(place);
-                break;
             case R.id.ib_home:
-                Toast.makeText(this, "You Clicked Home", Toast.LENGTH_SHORT).show();
-                place = home;
-                moveToLocation(place);
+
+                QuestionScoreDB db = new QuestionScoreDB(this);
+                Questions question1 = db.getQuestion(1);
+                Questions question2 = db.getQuestion(2);
+                Questions question3 = db.getQuestion(3);
+
+                if(question1.getFinished().equals(question2.getFinished())&& question1.getFinished().equals(question3.getFinished()) && question1.getFinished().equals("1"))
+                {
+                    Toast toast = Toast.makeText(getApplicationContext(),"Je hebt alle vragen opgelost , Proficiat! - jullie staan nu in het scoreboard",Toast.LENGTH_LONG);
+                    toast.show();
+                    finish();
+                }
+                else
+                {
+                    Toast toast = Toast.makeText(getApplicationContext(),"Nog niet alles is opgelost!",Toast.LENGTH_LONG);
+                    toast.show();
+                }
+
                 break;
             case R.id.ib_reset:
                 Toast.makeText(this, "Resetting Our Map", Toast.LENGTH_SHORT).show();
@@ -176,21 +185,6 @@ public class MapsActivity extends AppCompatActivity implements GoogleApiClient.C
         super.onStop();
     }
 
-    /**
-     * Sets up the map if it is possible to do so (i.e., the Google Play services APK is correctly
-     * installed) and the map has not already been instantiated.. This will ensure that we only ever
-     * call {@link #setUpMap()} once when {@link #googleMap} is not null.
-     * <p/>
-     * If it isn't installed {@link SupportMapFragment} (and
-     * {@link com.google.android.gms.maps.MapView MapView}) will show a prompt for the user to
-     * install/update the Google Play services APK on their device.
-     * <p/>
-     * A user can return to this FragmentActivity after following the prompt and correctly
-     * installing/updating/enabling the Google Play services. Since the FragmentActivity may not
-     * have been completely destroyed during this process (it is likely that it would only be
-     * stopped or paused), {@link #onCreate(Bundle)} may not be called again so we should call this
-     * method in {@link #onResume()} to guarantee that it will be called.
-     */
     private void setUpMapIfNeeded() {
         // Do a null check to confirm that we have not already instantiated the map.
         if (googleMap == null) {
@@ -212,7 +206,7 @@ public class MapsActivity extends AppCompatActivity implements GoogleApiClient.C
         googleMap.setBuildingsEnabled(true);
 
 
-        school = new MyPlaces("UCLL","This is your school!",new LatLng(50.9287358, 5.3942763 ), 500 , 10 , R.drawable.abc_spinner_mtrl_am_alpha);
+        school = new MyPlaces("UCLL","This is your school!",new LatLng(50.9287358, 5.3942763 ), 500 , 10 , R.drawable.ic_palm_tree);
         addPlaceMarker(school);
         addFence(school);
 
@@ -439,15 +433,9 @@ public class MapsActivity extends AppCompatActivity implements GoogleApiClient.C
             return geofencePendingIntent;
         } else {
 
-            String Value = null;
-//            Bundle b = getIntent().getExtras();
-//
-//            if (b != null) {
-//               Value = b.getString("GroupsID").toString();
-//            }
 
             Intent intent = new Intent(this, GeofenceTransitionReceiver.class);
-           // intent.putExtra("GroupsID",Value);
+
             intent.setAction("geofence_transition_action");
             return PendingIntent.getBroadcast(this, R.id.geofence_transition_intent, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         }
@@ -468,7 +456,7 @@ public class MapsActivity extends AppCompatActivity implements GoogleApiClient.C
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(new LatLng(location.getLatitude(), location.getLongitude()));
         markerOptions.title("Current Position");
-        markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.emo_im_laughing));
+        markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.cposition));
         currLocationMarker = googleMap.addMarker(markerOptions);
         Toast.makeText(this, "Location Changed" + location.getLatitude() + " " + location.getLongitude(), Toast.LENGTH_SHORT).show();
 
@@ -551,5 +539,11 @@ public class MapsActivity extends AppCompatActivity implements GoogleApiClient.C
                 Log.i(TAG, "Done moving location.");
             }
         }
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        //Do nothing
     }
 }

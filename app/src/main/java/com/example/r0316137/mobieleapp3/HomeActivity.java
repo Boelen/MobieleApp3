@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.util.Date;
+import java.util.List;
 
 public class HomeActivity extends AppCompatActivity
 implements TextView.OnEditorActionListener,View.OnClickListener{
@@ -63,16 +64,22 @@ implements TextView.OnEditorActionListener,View.OnClickListener{
                 Boolean CheckInput = CheckInput();
 
                 if(CheckInput == true) {
+                    db.DropQuestions();
                     ScoreBoard SB = new ScoreBoard(groupNameString,classNameString,Score,Time);
                     db.insertScoreBoard(SB);
+                    db.getPersonalScoreBoard(groupNameString);
                     ScoreBoard YourEntry = db.getPersonalScoreBoard(groupNameString);
+                    int id = YourEntry.getId();
+                    MyApplication appState = ((MyApplication)getApplicationContext());
+                    appState.setGroupId(id);
 
                     Intent intent = new Intent(this, MapsActivity.class);
-                   // intent.putExtra("GroupsID",YourEntry.getGroupName());
                     startActivity(intent);
                 }
                 break;
             case R.id.Button03:
+                Intent intent = new Intent(this,ScoreBoardActivity.class);
+                startActivity(intent);
                 break;
         }
     }
@@ -81,6 +88,8 @@ implements TextView.OnEditorActionListener,View.OnClickListener{
     {
         int LengteClassName = className.getText().length();
         int LengteGroupName = groupName.getText().length();
+
+
 
         if(LengteClassName < 3)
         {
@@ -102,11 +111,42 @@ implements TextView.OnEditorActionListener,View.OnClickListener{
             Toast.makeText(this,"Je gekozen groepsnaam mag geen spaties bevatten",Toast.LENGTH_SHORT).show();
             return false;
         }
+        else if (CheckGroups() == false)
+        {
+            return false;
+        }
         else
         {
             return true;
         }
     }
+
+    public Boolean CheckGroups()
+    {
+        boolean tr = false;
+        List<ScoreBoard> allGroups = db.getScoreBoard();
+
+        for (ScoreBoard sb : allGroups) {
+
+            if(sb.getGroupName().equals(groupNameString))
+            {
+                tr = true;
+            }
+
+        }
+
+        if (tr = true)
+        {
+            Toast.makeText(this,"Je groepsnaam is reeds gekozen. Kies een andere!",Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
+
+
 
     @Override
     public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
