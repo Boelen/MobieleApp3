@@ -135,7 +135,7 @@ implements TextView.OnEditorActionListener,View.OnClickListener{
 
         }
 
-        if (tr = true)
+        if (tr == true)
         {
             Toast.makeText(this,"Je groepsnaam is reeds gekozen. Kies een andere!",Toast.LENGTH_SHORT).show();
             return false;

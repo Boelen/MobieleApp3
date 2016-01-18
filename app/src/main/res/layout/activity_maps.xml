@@ -28,20 +28,28 @@
         android:id="@+id/ib_home"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:maxHeight="150px"
+        android:maxWidth="150px"
+        android:scaleType="fitCenter"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/tv_instructions"
         android:contentDescription="@string/cont_desc_home_btn"
-        android:src="@drawable/ic_home" />
+        android:src="@drawable/ic_finish" />
 
 
     <ImageButton
         android:id="@+id/ib_reset"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:maxHeight="150px"
+        android:maxWidth="150px"
+        android:scaleType="fitCenter"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/ib_happy_place"
+        android:layout_below="@+id/ib_home"
         android:contentDescription="@string/cont_desc_reset_btn"
         android:src="@drawable/ic_reset" />
 

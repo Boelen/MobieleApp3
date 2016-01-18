@@ -78,6 +78,9 @@ public class MapsActivity extends AppCompatActivity implements GoogleApiClient.C
         ImageButton homeBtn = (ImageButton) findViewById(R.id.ib_home);
         homeBtn.setOnClickListener(this);
 
+        ImageButton resetBtn = (ImageButton) findViewById(R.id.ib_reset);
+        resetBtn.setOnClickListener(this);
+
 
         setUpMapIfNeeded();
     }
@@ -411,23 +414,12 @@ public class MapsActivity extends AppCompatActivity implements GoogleApiClient.C
         Toast.makeText(this, toastMessage, Toast.LENGTH_SHORT).show();
     }
 
-    /**
-     * Returns the current PendingIntent to the caller.
-     *
-     * @return The PendingIntent used to create the current set of geofences
-     */
+
     public PendingIntent getRequestPendingIntent() {
         return createRequestPendingIntent();
     }
 
-    /**
-     * Get a PendingIntent to send with the request to add Geofences. Location
-     * Services issues the Intent inside this PendingIntent whenever a geofence
-     * transition occurs for the current list of geofences.
-     *
-     * @return A PendingIntent for the IntentService that handles geofence
-     * transitions.
-     */
+
     private PendingIntent createRequestPendingIntent() {
         if (geofencePendingIntent != null) {
             return geofencePendingIntent;

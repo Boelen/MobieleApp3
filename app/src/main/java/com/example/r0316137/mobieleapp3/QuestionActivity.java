@@ -47,6 +47,7 @@ implements  TextView.OnEditorActionListener, View.OnClickListener {
                     ScoreBoard scoreBoard = db.getPersonalScoreBoard(id);
                     int TijdelijkeScore = scoreBoard.getScore() + 200;
                     scoreBoard.setScore(TijdelijkeScore);
+                    db.updateScoreBoard(scoreBoard);
 
                     thisQuestion.setFinished("1");
                     db.updateQuestions(thisQuestion);
@@ -76,6 +77,7 @@ implements  TextView.OnEditorActionListener, View.OnClickListener {
                     ScoreBoard scoreBoard = db.getPersonalScoreBoard(id);
                     int TijdelijkeScore = scoreBoard.getScore() + 200;
                     scoreBoard.setScore(TijdelijkeScore);
+                    db.updateScoreBoard(scoreBoard);
 
                     thisQuestion.setFinished("1");
                     db.updateQuestions(thisQuestion);
@@ -105,6 +107,7 @@ implements  TextView.OnEditorActionListener, View.OnClickListener {
                     ScoreBoard scoreBoard = db.getPersonalScoreBoard(id);
                     int TijdelijkeScore = scoreBoard.getScore() + 200;
                     scoreBoard.setScore(TijdelijkeScore);
+                    db.updateScoreBoard(scoreBoard);
 
                     thisQuestion.setFinished("1");
                     db.updateQuestions(thisQuestion);
